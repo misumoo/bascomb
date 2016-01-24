@@ -1,0 +1,427 @@
+body
+{
+  font: .7em sans-serif;
+	background-color: #DFDFDF;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+/*a:link {color: inherit;}  /* unvisited link */
+/*a:visited {color: inherit;}  /* visited link */
+/*a:hover {color: inherit;}  /* mouse over link */
+/*a:active {color: inherit;}  /* selected link */
+div.page {
+	height: auto;
+	clear: both;
+	margin: auto; 
+	border: none; 
+	padding: 0em; 
+	width: 920px;
+}
+div.panelWrapper {
+	float: left;
+  height: auto;
+	width: 600px;
+	padding: 9px;
+	border: 3px solid;
+	border-color: #363539;
+	background-color: #FFFFFF;
+	margin-bottom: 5px;
+}
+div.clrBoth {
+  clear: both;
+}
+div.innerPanelLeft {
+  float: left;
+}
+div.innerPanelRight {
+  float: right;
+  height: 100%;
+}
+div.event {
+  width: 99%;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  border: 1px solid black;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+label.error {
+	color: red;
+	font: 16px sans-serif;
+	font-weight: bold;
+}
+td.checkbox {
+	width: 20px;
+}
+table.select {
+	clear: right;
+	float: right;
+	border: 3px solid;
+	border-color: #363539;
+	background-color: #FFFFFF;
+}
+.hr {
+  font-weight: bold;
+}
+.green {
+	color: green;
+}
+.red {
+	color: red;
+}
+.orange {
+	color: #E05907;
+}
+.caps {
+  font-size: 1.1em;
+  font-variant: small-caps;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.changelog-header {
+  font-size: 1.9em;
+  color: #0c005e;
+}
+.changelog-day {
+  font-size: 1.35em;
+  color: #0c005e;
+}
+.changelog-entry>li {
+  font-size: 1.1em;
+  color: #0c008f;
+}
+/***********************
+      Email Wrapper
+***********************/
+div.email {
+  margin-top:7px;
+  margin-bottom:7px;
+}
+div.emailLeft {
+  float: left;
+  padding-top:6px;
+  padding-bottom:6px;
+}
+div.emailRight {
+  float: right;
+}
+/***********************
+   Email Wrapper End
+***********************/
+/***********************
+     Button Wrapper
+***********************/
+div.gridButtonWrapper {
+  height: 100%;
+  padding: 8px;
+}
+div.divHdr {
+  margin: 5px;
+  margin-right: 5px;
+  padding: 8px;
+}
+.lblButton {
+  padding: 8px;
+  border: 1px solid white;
+  background-color: #000000;
+  border-color: #676767;
+  color: white;
+  font: 1.1em sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  margin-right: 3px;
+}
+.lblButtonRight {
+  margin-left: 3px;
+  float: right;
+  padding: 8px;
+  border: 1px solid white;
+  border-color: #676767;
+  color: white;
+  font: 1.1em sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+.header-href {
+  text-decoration: none;
+  color: inherit;
+}
+.lblButton:hover, .lblButtonRight {
+  background-color: #484848;
+}
+/***********************
+   Button Wrapper End
+***********************/
+/**********************
+    Content Holders
+**********************/
+div.contHolderSingle {
+	padding: 8px;
+  background-color: #EFEFEF;
+  margin-left: -1px;
+  border: 1px solid #969696;
+	height: auto;
+	margin: auto; 
+	width: 920px;
+}
+div.contHolder {
+  background-color: #EFEFEF;
+  margin-left: -1px;
+  border: 1px solid #969696;
+	height: auto;
+	margin: auto; 
+	padding: 0em; 
+	width: 920px;
+}
+div.leftContainer {
+  height: auto;
+	position: relative;
+	padding: 15px;
+	float: left;
+	width: 660px;
+}
+div.rightContainer {
+  height: 100%;
+	position: relative;
+	padding: 15px;
+	float: right;
+	width: 200px;
+}
+/**************************
+    Content Holders End
+**************************/
+/**************************
+       Header Wrapper
+**************************/
+div.header {
+  top: 0px;
+  left: 0px;
+  position: absolute;
+	background-color: black;
+  display: block;
+  height: 44px;
+  width: 100%;
+	border-color: #363539;
+  min-width: 750px;
+}
+div.innerHeader {
+  position: relative;
+  height: 44px;
+  width: 920px;
+  margin-bottom: 7px;
+  padding: 0px 8px;
+}
+/**************************
+     Header Wrapper End
+**************************/
+/**************************
+*******FANCY BUTTON********
+**************************/
+.fancybutton {
+  background: #dbe1e2 none repeat scroll 0 0;
+  border: 1px solid black;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.fancybutton:hover {
+  background: #cdd3d4 none repeat scroll 0 0;
+  text-decoration: none;
+}
+
+.fancybutton.disabled, .fancybutton[disabled], fieldset[disabled] .fancybutton {
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.25;
+  pointer-events: none;
+}
+/**************************
+*****FANCY BUTTON END******
+**************************/
+/**************************
+*******FANCY INPUT*********
+**************************/
+.fancyinput, .fancyselect {
+  display: block;
+  margin: 0;
+  border: solid 1px #dcdcdc;
+  transition: box-shadow 0.2s, border 0.2s;
+  outline: none;
+}
+.fancyinput {
+  padding: 4px;
+}
+
+.fancyinput:focus, .fancyselect:focus {
+  border: solid 1px #4A76B8;
+  box-shadow: 0 0 3px 1px #4A76B8;
+}
+
+.fancyselect option {
+  padding: 3px;
+  min-width: 65px;
+}
+/**************************
+*****FANCY INPUT END*******
+**************************/
+
+/**************************
+*****SAVE EVENT DIALOG*****
+**************************/
+#frm_SaveEvent div, #frm_AddPaymentPlan div {
+  font-weight: 800;
+}
+#frm_SaveEvent div {
+  margin-bottom: 2px;
+}
+#frm_SaveEvent input, #frm_AddPaymentPlan input {
+  margin-bottom: 9px;
+}
+#save_Capacity {
+  width: 50px;
+}
+#save_StartDate, #save_EndDate {
+  width: 80px;
+}
+#save_EventName {
+  width: 100%;
+}
+#tbl_PaymentPlans {
+  width: 526px;
+  margin-top: 5px;
+}
+#popup_PaymentPlans {
+  margin-left: 20px;
+}
+#tbl_PaymentPlans img {
+  cursor: pointer;
+  height: 16px;
+  padding-bottom: -2px;
+  margin-bottom: -2px;
+}
+/**************************
+***SAVE EVENT DIALOG END***
+**************************/
+
+#eventHeader {
+  width: 100%;
+}
+#eventHeader img {
+  width: 75px;
+  margin-left: 10px;
+}
+
+.active, .inactive {
+  font-weight: 600;
+  color: darkorange;
+  line-height: 1.4;
+  font-size: 1.2em;
+  margin: 8px 0 3px 0;
+}
+
+.eventslist {
+  width: 900px;
+  border: 1px solid black;
+  padding: 5px;
+  padding-left: 9px;
+  padding-right: 9px;
+  margin-bottom: 8px;
+}
+.header_Current {
+  color: white;
+  float: right;
+  font-weight: 800;
+  cursor: pointer;
+  line-height: 1.5;
+  font-size: 1.3em;
+  text-align: center;
+  width: 530px;
+  margin-top: -1px;
+}
+.important {
+  color: red;
+  font-weight: 800;
+  font-size: 1.25em;
+}
+.shadowbox {
+  background: #dddddd none repeat scroll 0 0;
+  border-color: #7a7977;
+  border-radius: 5px;
+  box-shadow: 0 0 8px #dddddd, 0 0 12px #7a7977 inset;
+  color: #fff;
+  margin-bottom: 5px;
+  padding: 8px;
+}
+.settingslabel {
+  text-align: left;
+  float: left;
+  clear: both;
+  width: 430px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+}
+.center {
+  text-align: center;
+}
+.tblSettings td {
+  font-size: 14px;
+  vertical-align: top;
+  text-align: left;
+}
+
+#tbl_PaymentPlans {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background-color: #fff;
+  border-color: #ccc;
+  border-image: none;
+  border-spacing: 0;
+  border-style: solid;
+  border-width: 1px 0 0 1px;
+  margin: 10px 0 15px;
+  text-align: left;
+}
+
+#tbl_PaymentPlans thead {
+  background-color: #f6f8f9;
+  border-collapse: collapse;
+  color: #555;
+  font: 12px/18px Arial,sans-serif;
+  padding: 4px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+#tbl_PaymentPlans td, #tbl_PaymentPlans th {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: #ccc;
+  border-image: none;
+  border-style: solid;
+  border-width: 0 1px 1px 0;
+  padding: 4px 8px;
+}
+.helper {
+  cursor: help;
+  height: 14px;
+}
