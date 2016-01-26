@@ -82,17 +82,16 @@ if(isset($_POST['addPaymentPlan']) && !$cancelProcess) {
   $timeframeid = $_POST['timeframeid'];
   $startdate = $_POST['startdate'];
   $enddate = $_POST['enddate'];
-  $amount = $_POST['amount'];
-  $form = $_POST['form'];
+  $paymenttypeid = $_POST['paymenttypeid'];
   $default = $_POST['setdefault'];
   $note = "";
 
   $userid = $_SESSION['UserID'];
 
   if($timeframeid == "") {
-    $task = createPaymentPlan($eventid, $startdate, $enddate, $amount, $form, $note, $userid, $default);
+    $task = createPaymentPlan($eventid, $startdate, $enddate, $paymenttypeid, $note, $userid, $default);
   } else {
-    $task = updatePaymentPlan($eventid, $startdate, $enddate, $amount, $form, $note, $userid, $timeframeid, $default);
+    $task = updatePaymentPlan($eventid, $startdate, $enddate, $paymenttypeid, $note, $userid, $timeframeid, $default);
   }
 
   if(!$task) {

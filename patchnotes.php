@@ -53,12 +53,22 @@ require_once('lib/db.php');
       <br />
 
       <div>
-        <span class="changelog-day">January 23, 2016</span>
+        <span class="changelog-day">January 25, 2016</span>
+        <ul class="changelog-entry">
+          <li>Create table tbl_payment_type.</li>
+          <li>Populated table.</li>
+          <li>Fixed the payment plan part of event page to use tbl_payment_type. Removed unused items.</li>
+        </ul>
+      </div>
+
+      <div>
+        <span class="changelog-day">January 24, 2016</span>
         <ul class="changelog-entry">
           <li>Create table tbl_payment_timeframes.</li>
           <li>Payment Plans on event page - Create dialog to interact with tbl_payment_timeframes.</li>
           <li>Paypal Form is now used based on tbl_payment_timeframes.</li>
           <li>Debug, test, make user friendly.</li>
+          <li>Set EventID to 16.</li>
         </ul>
       </div>
 

@@ -13,15 +13,8 @@ if (!isset($_SESSION['authUser'])) {
 	header("Location: login.php");
 } else {
 
-
-$_SESSION['UserID'];
-$i;
-$months;
-$totalMonths;
-$beginningYear;
-$endingYear;
-
-require 'lib/db.php';
+  $userid = $_SESSION['UserID'];
+  require 'lib/db.php';
     
 ?>
 <!DOCTYPE html>
@@ -112,7 +105,7 @@ require "header.php";
             <img class="helper" src="images/help.png" title="If there is no default already, this will be forced to yes and visa versa. Default does not have a start or end date.">
           </div>
           <div>
-            <select id="payment_Default" class="fancyselect" onchange="paymentFindDefault()">
+            <select disabled id="payment_Default" class="fancyselect" onchange="paymentFindDefault()">
               <option selected="" value="1">Yes</option>
               <option value="0">No</option>
             </select>
@@ -120,25 +113,35 @@ require "header.php";
         </div>
         <div style="clear: both;"></div>
         <div style="float: left; width: 180px;">
-          <div><label for="payment_Amount">Amount</label></div>
-          <div><input id="payment_Amount" type="text" class="fancyinput" autocomplete="off" /></div>
+          <div>
+            <label for="payment_Type">Payment</label>
+            <img class="helper" src="images/help.png" title="Right now I have to add these manually.">
+          </div>
+          <div>
+            <?php
+            $sql = "
+                SELECT * FROM tbl_payment_type WHERE UserID = '".$userid."' ORDER BY Provider, Amount
+              ";
+            $select_type = "";
+            $rs = $mysqli->query($sql);
+            while($row = $rs->fetch_assoc()) {
+              $selected = ($select_type == "" ? "selected" : "");
+              $select_type .= "<option ".$selected." value=\"".$row['PaymentTypeID']."\">".$row['Provider'].": $".$row['Amount']."</option>";
+            }
+            $select_type = "<select id=\"payment_Type\" class=\"fancyselect\" style=\"width: 167px;\">".$select_type."</select>";
+            echo $select_type;
+            ?>
+          </div>
         </div>
         <div style="float: left; width: 180px;">
           <div><label for="payment_StartDate">Start Date</label></div>
-          <div><input id="payment_StartDate" type="text" class="fancyinput" /></div>
+          <div><input autocomplete="off" id="payment_StartDate" type="text" class="fancyinput" /></div>
         </div>
         <div style="float: left; width: 180px;">
           <div><label for="payment_EndDate">End Date</label></div>
-          <div><input id="payment_EndDate" type="text" class="fancyinput" /></div>
+          <div><input autocomplete="off" id="payment_EndDate" type="text" class="fancyinput" /></div>
         </div>
         <div style="clear: both;"></div>
-        <div style="float: left; width: 180px;">
-          <div>
-            <label for="payment_Form">Paypal Form</label>
-            <img class="helper" src="images/help.png" title="Paypal will give you a code that is a bit extensive. Paste it in here.">
-          </div>
-          <div><textarea id="payment_Form" class="fancyinput" style="width: 516px; height: 100px;"></textarea></div>
-        </div>
         <div style="clear: both;"></div>
       </form>
       <div style="float: right; width: 150px; margin: 4px 20px 8px 0">

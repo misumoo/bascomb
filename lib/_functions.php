@@ -100,12 +100,11 @@ function createEvent($eventname, $startdate, $enddate, $userid, $capacity, $disp
   return $insertid;
 } //createEvent
 
-function createPaymentPlan($eventid, $startdate, $enddate, $amount, $form, $note, $userid, $default) {
+function createPaymentPlan($eventid, $startdate, $enddate, $paymenttypeid, $note, $userid, $default) {
   $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
 
   $eventid = convertForInsert($eventid);
-  $amount = convertForInsert($amount);
-  $form = convertForInsert($mysqli->real_escape_string($form));
+  $paymenttypeid = convertForInsert($paymenttypeid);
   if($default == 1) {
     $note = "Default";
     $startdate = "";
@@ -116,8 +115,8 @@ function createPaymentPlan($eventid, $startdate, $enddate, $amount, $form, $note
   $note = convertForInsert($note);
 
   $sql = "
-    INSERT INTO  `tbl_payment_timeframes` (EventID, UserID, StartDate, EndDate, Amount, Form, Note, TimeFrameID) VALUES
-                                          (".$eventid.", ".$userid.", ".$startdate.", ".$enddate.", ".$amount.", ".$form.", ".$note.", NULL);";
+    INSERT INTO  `tbl_payment_timeframes` (EventID, UserID, StartDate, EndDate, PaymentTypeID, Note, TimeFrameID) VALUES
+                                          (".$eventid.", ".$userid.", ".$startdate.", ".$enddate.", ".$paymenttypeid.", ".$note.", NULL);";
 
   try {
     $mysqli->query($sql);
@@ -130,12 +129,11 @@ function createPaymentPlan($eventid, $startdate, $enddate, $amount, $form, $note
 } //createPaymentPlan
 
 
-function updatePaymentPlan($eventid, $startdate, $enddate, $amount, $form, $note, $userid, $timeframeid, $default) {
+function updatePaymentPlan($eventid, $startdate, $enddate, $paymenttypeid, $note, $userid, $timeframeid, $default) {
   $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
 
   $eventid = convertForInsert($eventid);
-  $amount = convertForInsert($amount);
-  $form = convertForInsert($form);
+  $paymenttypeid = convertForInsert($paymenttypeid);
   $timeframeid = convertForInsert($timeframeid);
   $default = convertForInsert($default);
   if($default == 1) {
@@ -151,9 +149,8 @@ function updatePaymentPlan($eventid, $startdate, $enddate, $amount, $form, $note
     UPDATE tbl_payment_timeframes SET
       StartDate = $startdate,
       EndDate = $enddate,
-      Amount = $amount,
-      Form = $form,
-      Form = $note,
+      PaymentTypeID = $paymenttypeid,
+      Note = $note,
       TimeFrameID = $timeframeid
     WHERE EventID = $eventid
       AND UserID = $userid
@@ -341,7 +338,12 @@ function getPaymentPlan($eventid, $userid) {
   $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
 
   $eventid = convertForInsert($eventid);
-  $sql = "SELECT * FROM tbl_payment_timeframes WHERE EventID = $eventid AND UserID = $userid";
+  $sql = "SELECT
+            tbl_payment_timeframes.*,
+            tbl_payment_type.*
+          FROM `tbl_payment_timeframes`
+          LEFT JOIN `tbl_payment_type` ON `tbl_payment_timeframes`.PaymentTypeID = `tbl_payment_type`.PaymentTypeID
+          WHERE `tbl_payment_timeframes`.EventID = $eventid AND `tbl_payment_timeframes`.UserID = $userid";
   $rs = $mysqli->query($sql);
 
   try {
@@ -457,8 +459,10 @@ function getPaypalForm($id) {
   $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
   $sql = "
     SELECT
-      *
+      tbl_payment_timeframes.*,
+      tbl_payment_type.*
     FROM `tbl_payment_timeframes`
+    LEFT JOIN `tbl_payment_type` ON `tbl_payment_timeframes`.PaymentTypeID = `tbl_payment_type`.PaymentTypeID
     WHERE
     StartDate <= '".$today."'
     AND EndDate >= '".$today."'

@@ -187,6 +187,10 @@ function refreshPaymentTable(id) {
 
         $("#tbl_PaymentPlans").find('tbody').append($(sRow));
       }
+      if(response.data.length == 0) {
+        sRow = "<tr><td colspan='7'><label class='important'>No payment set up! Please add one or this will not work as intended.</label></td></tr>";
+        $("#tbl_PaymentPlans").find('tbody').append($(sRow));
+      }
       paymentFindDefault();
     } else {
       //error :(
@@ -210,8 +214,7 @@ function addPaymentPlan() {
       timeframeid: $("#payment_TimeFrameID").val(),
       startdate: $("#payment_StartDate").val(),
       enddate: $("#payment_EndDate").val(),
-      amount: $("#payment_Amount").val(),
-      form: $("#payment_Form").val(),
+      paymenttypeid: $("#payment_Type").val(),
       setdefault: $("#payment_Default").val()
     },
     dataType: 'json'
