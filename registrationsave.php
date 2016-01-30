@@ -43,22 +43,20 @@ if ($_SERVER['HTTP_REFERER'] != 'http://www.creativewebworks.net/bascomb/registr
 if (isset($_POST['name'])) {
   $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
   // Add record to database
-  if (!$cancelProcess) {
-    $_SESSION['name'] = $_POST['name'];
-    $_SESSION['emailaddress'] = $_POST['emailaddress'];
-    $_SESSION['streetaddress'] = $_POST['streetaddress'];
-    $_SESSION['csz'] = $_POST['csz'];
-    $_SESSION['phone'] = $_POST['phone'];
-    $_SESSION['payby'] = $_POST['payby'];
-    $_SESSION['returningguest'] = $_POST['returningguest'];
-    //$_SESSION['food'] = $_POST['food'];
-    $_SESSION['heardabout'] = $_POST['heardabout'];
-    $_SESSION['referredby'] = $_POST['referredby'];
-    $_SESSION['requestedtablebuddies'] = $_POST['requestedtablebuddies'];
-    $_SESSION['notetohostess'] = $_POST['notetohostess'];
-    //$_SESSION['typeOfFood'] = $_POST['typeOfFood'];
-    $userid = getUserID($eventid);
-  }
+  $_SESSION['name'] = $_POST['name'];
+  $_SESSION['emailaddress'] = $_POST['emailaddress'];
+  $_SESSION['streetaddress'] = $_POST['streetaddress'];
+  $_SESSION['csz'] = $_POST['csz'];
+  $_SESSION['phone'] = $_POST['phone'];
+  $_SESSION['payby'] = $_POST['payby'];
+  $_SESSION['returningguest'] = $_POST['returningguest'];
+  //$_SESSION['food'] = $_POST['food'];
+  $_SESSION['heardabout'] = $_POST['heardabout'];
+  $_SESSION['referredby'] = $_POST['referredby'];
+  $_SESSION['requestedtablebuddies'] = $_POST['requestedtablebuddies'];
+  $_SESSION['notetohostess'] = $_POST['notetohostess'];
+  //$_SESSION['typeOfFood'] = $_POST['typeOfFood'];
+  $userid = getUserID($eventid);
 
   $name = convertForInsert($mysqli->real_escape_string($_SESSION['name']));
   $emailaddress = convertForInsert($mysqli->real_escape_string($_SESSION['emailaddress']));
