@@ -41,6 +41,7 @@ if ($_SERVER['HTTP_REFERER'] != 'http://www.creativewebworks.net/bascomb/registr
 <body>
 <?php
 if (isset($_POST['name'])) {
+  $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
   // Add record to database
   if (!$cancelProcess) {
     $_SESSION['name'] = $_POST['name'];
@@ -50,20 +51,41 @@ if (isset($_POST['name'])) {
     $_SESSION['phone'] = $_POST['phone'];
     $_SESSION['payby'] = $_POST['payby'];
     $_SESSION['returningguest'] = $_POST['returningguest'];
-    $_SESSION['food'] = $_POST['food'];
+    //$_SESSION['food'] = $_POST['food'];
     $_SESSION['heardabout'] = $_POST['heardabout'];
     $_SESSION['referredby'] = $_POST['referredby'];
     $_SESSION['requestedtablebuddies'] = $_POST['requestedtablebuddies'];
     $_SESSION['notetohostess'] = $_POST['notetohostess'];
-    $_SESSION['typeOfFood'] = $_POST['typeOfFood'];
+    //$_SESSION['typeOfFood'] = $_POST['typeOfFood'];
     $userid = getUserID($eventid);
   }
+
+  $name = convertForInsert($mysqli->real_escape_string($_SESSION['name']));
+  $emailaddress = convertForInsert($mysqli->real_escape_string($_SESSION['emailaddress']));
+  $streetaddress = convertForInsert($mysqli->real_escape_string($_SESSION['streetaddress']));
+  $csz = convertForInsert($mysqli->real_escape_string($_SESSION['csz']));
+  $phone = convertForInsert($mysqli->real_escape_string($_SESSION['phone']));
+  $payby = convertForInsert($mysqli->real_escape_string($_SESSION['payby']));
+  $returningguest = convertForInsert($mysqli->real_escape_string($_SESSION['returningguest']));
+  //$food = convertForInsert($mysqli->real_escape_string($_SESSION['food']));
+  $heardabout = convertForInsert($mysqli->real_escape_string($_SESSION['heardabout']));
+  $referredby = convertForInsert($mysqli->real_escape_string($_SESSION['referredby']));
+  $requestedtablebuddies = convertForInsert($mysqli->real_escape_string($_SESSION['requestedtablebuddies']));
+  $notetohostess = convertForInsert($mysqli->real_escape_string($_SESSION['notetohostess']));
+  //$typeOfFood = convertForInsert($mysqli->real_escape_string($_SESSION['typeOfFood']));
   
   //build e-mail string
   //send email and sql statement
   if (!$cancelProcess) {
     $sql = "INSERT INTO registration (UserID, EventID, Name, EmailAddress, StreetAddress, CSZ, Phone, PayBy, ReturningGuest, Food, HeardAbout, ReferredBy, EnteredBy, RequestedTableBuddies, NoteToHostess, Paid, FoodCategory, CustomMessageBdySent) ";
-    $sql = $sql."VALUES ('".$userid."','".$eventid."','".$_SESSION['name']."','".$_SESSION['emailaddress']."','".$_SESSION['streetaddress']."','".$_SESSION['csz']."','".$_SESSION['phone']."','".$_SESSION['payby']."','".$_SESSION['returningguest']."','','".$_SESSION['heardabout']."','".$_SESSION['referredby']."', 'Online','".$_SESSION['requestedtablebuddies']."','".$_SESSION['notetohostess']."', 'N', 'NULL', '0')";
+    //$sql = $sql."VALUES ('".$userid."','".$eventid."','".$_SESSION['name']."','".$_SESSION['emailaddress']."','".$_SESSION['streetaddress']."','".$_SESSION['csz']."','".$_SESSION['phone']."','".$_SESSION['payby']."','".$_SESSION['returningguest']."','','".$_SESSION['heardabout']."','".$_SESSION['referredby']."', 'Online','".$_SESSION['requestedtablebuddies']."','".$_SESSION['notetohostess']."', 'N', 'NULL', '0')";
+    $sql = $sql."VALUES (".$userid.",".$eventid.",".$name.",".$emailaddress.",".$streetaddress.",".$csz.",".$phone.",".$payby.",".$returningguest.", NULL,".$heardabout.",".$referredby.", 'Online',".$requestedtablebuddies.",".$notetohostess.", 'N', NULL, 0)";
+
+    $result = $mysqli->query($sql);
+    if (!$result) {
+      echo mysqli_error($mysqli);
+      $cancelProcess = true;
+    }
 
     // multiple recipients
     $to  = $_SESSION['emailaddress'];
@@ -194,113 +216,130 @@ if (isset($_POST['name'])) {
     $headers .= 'Cc: ' . $useremail  . "\r\n";
 
     // Mail it
-    mail($useremail, $subject, $message, $headers);
-    
-    $result = mysql_query($sql);
-  	If (!$result) {
-  	 echo mysql_error($db_con);
+    if(!$cancelProcess) {
+      mail($useremail, $subject, $message, $headers);
     }
   }
-  
-  
-  //create html
+
+
+  if(!$cancelProcess) {
+    //create html
     echo "<table class='form'>
-      <tr>
-        <td colspan='2' class='center'>
-          <p class='title'>BUMC Scrapbook Crop Registration</p>
-          ";
-                    
-          if ($emailInUse)
-          {
-            echo "<p class='importantBig'>This e-mail is already used.<br />
-            Your registration is not complete.</p>
-            <p class='p3'>Back to <a href='http://www.creativewebworks.net/bascomb/registration.php'>Registration</a></p>";
-          }
-          if (!$emailInUse)
-          {
-            echo "<p class='importantBig' style=''>Thank you for registering.<br />
-            A copy of your registration has been e-mailed to you.</p>";
-          }
-                    
-          echo "                    
-          <p class='p3'>Susan Austin</p>
-          <p class='p3'><a href='https://sites.google.com/site/bascombcrop/'>BUMC Scrapbook Crop</a></p>
-          <p class='p3'>6021 Hollow Dr, Woodstock Ga 30189</p>
-        </td>
-      </tr>
-      <tr>
-        <td class='right'><label class='l2'>Name: </label></td>
-        <td class='left'>"; echo $_SESSION['name']; echo "</td>
-      </tr>
-      <tr>
-        <td class='right'><label class='l2'>Email Address: </label></td>
-        <td class='left'>"; echo $_SESSION['emailaddress']; echo "</td>
-      </tr>
-      <tr>
-        <td class='right'><label class='l2'>Street Address: </label></td>
-        <td class='left'>"; echo $_SESSION['streetaddress']; echo "</td>
-      </tr>
-      <tr>
-        <td class='right'><label class='l2'>City, State: </label></td>
-        <td class='left'>"; echo $_SESSION['csz']; echo "</td>
-      </tr>
-      <tr>
-        <td class='right'><label class='l2'>Phone #: </label></td>
-        <td class='left'>"; echo $_SESSION['phone']; echo "</td>
-      </tr>
-      <tr>
-        <td class='right' valign='top'><label class='l2'>How are you paying?: </label></td>
-        <td class='left' valign='top'>";
-        if ($_SESSION['payby'] == "paypal") {
-          echo "PayPal<br />
-          <p class='important'>";
-          echo getPaypalForm($eventid);
-          echo "</p>";
-        }
-        if ($_SESSION['payby'] == "check") {
-          echo "Check/Cash<br />
-          <br /><label class='l3'>Make Check Payable to Bascomb <br /> UMC (subject:scrapbook crop)</label>
-          <p class='important'>Please send payment to:<br />
-          Susan Austin<br />
-          BUMC Crop<br />
-          6021 Hollow Dr<br />
-          Woodstock, Ga 30189<br /></p>";
-        }
-        echo "</td>
-      </tr>
-      <tr>
-        <td class='right'><label class='l2'>Returning Guest: </label></td>
-        <td class='left'>"; echo $_SESSION['returningguest']; echo "</td>
-      </tr>
-      <tr>
-        <td class='right'><label class='l2'>How did you hear about us?: </label></td>
-        <td class='left'>"; echo $_SESSION['heardabout']; echo "</td>
-      </tr>
-      <tr>
-        <td class='right'><label class='l2'>Referred By?: </label></td>
-        <td class='left'>"; echo $_SESSION['referredby']; echo "</td>
-      </tr>              
-      <tr>
-        <td class='right' valign='top'><label class='l2'>Requested Table Buddies:</label></td>
-        <td class='left' valign='top'>"; echo stripslashes(nl2br($_SESSION['requestedtablebuddies'])); echo "</td>
-      </tr>     
-      <tr>
-        <td class='right' valign='top'><label class='l2'>Note To Hostess:</label></td>
-        <td class='left' valign='top'>"; echo stripslashes(nl2br($_SESSION['notetohostess'])); echo "</td>
-      </tr>
-      ";
-      
-//      <tr>
-//        <td class='right' valign='top'><label class='l2'>Food:</label><br /> <label class='isDescription'>Earn $5 off your registration fee by bringing food item(s) for your fellow scrappers.</label></td>
-//        <td class='left' valign='top'>"; echo nl2br($_SESSION['food']); echo "</td>
-//      </tr>
-            
-//      <tr>
-//        <td class='right' valign='top'><label class='l2'>Food Category:</label><br /><label class='isDescription'>If you are bringing something.</label></td>
-//        <td class='left' valign='top'>"; echo $_SESSION['typeOfFood']; echo "</td>
-//      </tr>
-      echo "
-    </table>";
+        <tr>
+          <td colspan='2' class='center'>
+            <p class='title'>BUMC Scrapbook Crop Registration</p>
+            ";
+
+    if ($emailInUse) {
+      echo "<p class='importantBig'>This e-mail is already used.<br />
+              Your registration is not complete.</p>
+              <p class='p3'>Back to <a href='http://www.creativewebworks.net/bascomb/registration.php'>Registration</a></p>";
+    }
+    if (!$emailInUse) {
+      echo "<p class='importantBig' style=''>Thank you for registering.<br />
+              A copy of your registration has been e-mailed to you.</p>";
+    }
+
+    echo "
+            <p class='p3'>Susan Austin</p>
+            <p class='p3'><a href='https://sites.google.com/site/bascombcrop/'>BUMC Scrapbook Crop</a></p>
+            <p class='p3'>6021 Hollow Dr, Woodstock Ga 30189</p>
+          </td>
+        </tr>
+        <tr>
+          <td class='right'><label class='l2'>Name: </label></td>
+          <td class='left'>";
+    echo $_SESSION['name'];
+    echo "</td>
+        </tr>
+        <tr>
+          <td class='right'><label class='l2'>Email Address: </label></td>
+          <td class='left'>";
+    echo $_SESSION['emailaddress'];
+    echo "</td>
+        </tr>
+        <tr>
+          <td class='right'><label class='l2'>Street Address: </label></td>
+          <td class='left'>";
+    echo $_SESSION['streetaddress'];
+    echo "</td>
+        </tr>
+        <tr>
+          <td class='right'><label class='l2'>City, State: </label></td>
+          <td class='left'>";
+    echo $_SESSION['csz'];
+    echo "</td>
+        </tr>
+        <tr>
+          <td class='right'><label class='l2'>Phone #: </label></td>
+          <td class='left'>";
+    echo $_SESSION['phone'];
+    echo "</td>
+        </tr>
+        <tr>
+          <td class='right' valign='top'><label class='l2'>How are you paying?: </label></td>
+          <td class='left' valign='top'>";
+    if ($_SESSION['payby'] == "paypal") {
+      echo "PayPal<br />
+            <p class='important'>";
+      echo getPaypalForm($eventid);
+      echo "</p>";
+    }
+    if ($_SESSION['payby'] == "check") {
+      echo "Check/Cash<br />
+            <br /><label class='l3'>Make Check Payable to Bascomb <br /> UMC (subject:scrapbook crop)</label>
+            <p class='important'>Please send payment to:<br />
+            Susan Austin<br />
+            BUMC Crop<br />
+            6021 Hollow Dr<br />
+            Woodstock, Ga 30189<br /></p>";
+    }
+    echo "</td>
+        </tr>
+        <tr>
+          <td class='right'><label class='l2'>Returning Guest: </label></td>
+          <td class='left'>";
+    echo $_SESSION['returningguest'];
+    echo "</td>
+        </tr>
+        <tr>
+          <td class='right'><label class='l2'>How did you hear about us?: </label></td>
+          <td class='left'>";
+    echo $_SESSION['heardabout'];
+    echo "</td>
+        </tr>
+        <tr>
+          <td class='right'><label class='l2'>Referred By?: </label></td>
+          <td class='left'>";
+    echo $_SESSION['referredby'];
+    echo "</td>
+        </tr>
+        <tr>
+          <td class='right' valign='top'><label class='l2'>Requested Table Buddies:</label></td>
+          <td class='left' valign='top'>";
+    echo stripslashes(nl2br($_SESSION['requestedtablebuddies']));
+    echo "</td>
+        </tr>
+        <tr>
+          <td class='right' valign='top'><label class='l2'>Note To Hostess:</label></td>
+          <td class='left' valign='top'>";
+    echo stripslashes(nl2br($_SESSION['notetohostess']));
+    echo "</td>
+        </tr>
+        ";
+
+  //      <tr>
+  //        <td class='right' valign='top'><label class='l2'>Food:</label><br /> <label class='isDescription'>Earn $5 off your registration fee by bringing food item(s) for your fellow scrappers.</label></td>
+  //        <td class='left' valign='top'>"; echo nl2br($_SESSION['food']); echo "</td>
+  //      </tr>
+
+  //      <tr>
+  //        <td class='right' valign='top'><label class='l2'>Food Category:</label><br /><label class='isDescription'>If you are bringing something.</label></td>
+  //        <td class='left' valign='top'>"; echo $_SESSION['typeOfFood']; echo "</td>
+  //      </tr>
+    echo "
+      </table>";
+  }
 }
 ?>
 </body>
