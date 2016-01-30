@@ -81,7 +81,7 @@ if (isset($_POST['name'])) {
 
     $result = $mysqli->query($sql);
     if (!$result) {
-      echo mysqli_error($mysqli);
+      echo mysqli_error($mysqli); //TODO: This needs to be a better error layout for users
       $cancelProcess = true;
     }
 

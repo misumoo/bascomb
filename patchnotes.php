@@ -53,6 +53,13 @@ require_once('lib/db.php');
       <br />
 
       <div>
+        <span class="changelog-day">January 30, 2016</span>
+        <ul class="changelog-entry">
+          <li>Fix issues with registration saving.</li>
+        </ul>
+      </div>
+
+      <div>
         <span class="changelog-day">January 25, 2016</span>
         <ul class="changelog-entry">
           <li>Create table tbl_payment_type.</li>
