@@ -169,9 +169,9 @@ if($eventID == "" || !$eventID || checkEvent($eventID) == false) {
     echo "<div style='width: 500px; text-align: center; margin: auto;'>";
     
     if($capped) {
-      $button = "<button disabled style:'background: #CCCCCC' onclick='registerCheckErrors()'>Register</button>";
+      $button = "<button disabled style='background: #CCCCCC' onclick='registerCheckErrors()'>Register</button>";
     } else {
-      $button = "<button onclick='registerCheckErrors()'>Register</button>";
+      $button = "<button onclick='registerCheckErrors()'>Register</button>"; //TODO: This needs to disable on press, so we don't get many registrations sometimes
     }
     
     echo $button;
