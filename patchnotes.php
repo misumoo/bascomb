@@ -53,6 +53,21 @@ require_once('lib/db.php');
       <br />
 
       <div>
+        <span class="changelog-day">August 23, 2016</span>
+        <ul class="changelog-entry">
+          <li>Create server log function.</li>
+          <li>Registering now triggers a log.</li>
+        </ul>
+      </div>
+
+      <div>
+        <span class="changelog-day">August 22, 2016</span>
+        <ul class="changelog-entry">
+          <li>Event ID is reset - ALTER TABLE tblEvents AUTO_INCREMENT = 1.</li>
+        </ul>
+      </div>
+
+      <div>
         <span class="changelog-day">January 30, 2016</span>
         <ul class="changelog-entry">
           <li>Fix issues with registration saving.</li>

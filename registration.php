@@ -22,6 +22,8 @@ if($eventID == "" || !$eventID || checkEvent($eventID) == false) {
 	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
 
 	<title>BUMC Scrapbook Crop Registratrion</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <link href="registration.css" rel="stylesheet" type="text/css" />
   <script src="registration.js" type="text/javascript"></script>
   <link rel="shortcut icon" href="images/site.ico">
@@ -115,7 +117,7 @@ if($eventID == "" || !$eventID || checkEvent($eventID) == false) {
         <td class='left'><input id='referredbyCheck' class='i1'"; if($full) { echo " disabled='Disabled' style:\"background: #CCCCCC\""; } echo " value='"; if(isset($_SESSION['referredby'])) {echo $_SESSION['referredby']; } echo "' name='referredby' type='text'></input></td>
       </tr>      
       <tr>
-        <td class='right' valign='top'><label class='l2'>Requested Table Buddies: </label></td>
+        <td class='right' valign='top'><label class='l2'>Requested Table Buddies: (Use your group name if you have one.)</label></td>
         <td class='left'><textarea id='requestedtablebuddiesCheck' rows='2' style='width: 240px;'"; if($full) { echo " disabled='Disabled' style:\"background: #CCCCCC\""; } echo " name='requestedtablebuddies' type='text'>"; if(isset($_SESSION['requestedtablebuddies'])) {echo str_replace("<br />", "", $_SESSION['requestedtablebuddies']); } echo "</textarea></td>
       </tr>  
       <tr>
@@ -169,9 +171,9 @@ if($eventID == "" || !$eventID || checkEvent($eventID) == false) {
     echo "<div style='width: 500px; text-align: center; margin: auto;'>";
     
     if($capped) {
-      $button = "<button disabled style='background: #CCCCCC' onclick='registerCheckErrors()'>Register</button>";
+      $button = "<button id='btn_register' disabled style='background: #CCCCCC' onclick='registerCheckErrors()'>Register</button>";
     } else {
-      $button = "<button onclick='registerCheckErrors()'>Register</button>"; //TODO: This needs to disable on press, so we don't get many registrations sometimes
+      $button = "<button id='btn_register' onclick='registerCheckErrors()'>Register</button>"; //TODO: This needs to disable on press, so we don't get many registrations sometimes
     }
     
     echo $button;

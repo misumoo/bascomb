@@ -1,5 +1,4 @@
-function paymentHandle()
-{
+function paymentHandle() {
   var payment = document.getElementById("paymentCheck").value;
   var method = document.getElementById("method");
           
@@ -91,8 +90,8 @@ function registerCheckErrors()
 //    }
 //  } catch(e) {}
   
-  if (!errors)
-  {
+  if (!errors) {
+    $("#btn_register").prop("disabled", true);
     document.forms["registrationForm"].submit();
   } else {
     alert(msg);  

@@ -7,6 +7,26 @@
  */
 
 
+function createLog($filename, $task, $msg) {
+  $file = 'logs/'. $filename .'.log';
+  $date = new DateTime();
+
+  try {
+    //$mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
+    //$task = "'".$mysqli->real_escape_string($task)."'";
+  } catch (Exception $e) {
+    //fail in silence
+  }
+
+  $current = file_get_contents($file);
+  $logbuilder['Timestamp'] = $date->format('Y-m-d H:i:s');
+  $logbuilder['Task'] = $task;
+  $logbuilder['Message'] = $msg;
+  $current .= "\r\n".json_encode($logbuilder);
+
+  file_put_contents($file, $current);
+  return true;
+}
 
 function updateNewLastEvent($EventID) {
   $result = mysql_query("UPDATE tblLastEvent SET `UserID` = '".$_SESSION['UserID']."', `EventID` = '".$EventID."' WHERE UserID='".$_SESSION['UserID']."'");
@@ -362,6 +382,49 @@ function getPaymentPlan($eventid, $userid) {
     return false; //something went wrong
   }
 } //getPaymentPlan
+
+/**
+ * @param $eventid
+ * @param $userid
+ * @param $name
+ * @param $emailaddress
+ * @return array
+ */
+function getCustomerCount($eventid, $userid, $name, $emailaddress) {
+  $data = "";
+  $dataArray = array();
+
+  $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
+
+  $eventid = convertForInsert($eventid);
+  $sql = "SELECT
+            COUNT(regid) AS CountOfRegid
+          FROM `registration`
+          WHERE EventID = $eventid AND UserID = $userid AND EmailAddress = $emailaddress AND Name = $name";
+  $rs = $mysqli->query($sql);
+
+  try {
+    while($row = $rs->fetch_assoc()) {
+      if($row['CountOfRegid'] > 0) {
+        //Already in database.
+        $data = $row['CountOfRegid'];
+        //$data['Message'] = "Already in database. Do not add me.";
+      } else {
+        //we have a match in the database already
+        $data = $row['CountOfRegid'];
+        //$data['Message'] = "Not in database. Add me!";
+      }
+    }
+    //$dataArray[] = $data;
+    //return $dataArray;
+    return $data;
+  } catch (Exception $e) {
+    $data['Count'] = 1;
+    $data['Message'] = "Caught an error.. $e";
+    $dataArray[] = $data;
+    return $dataArray;
+  }
+} //getCustomerCount
 
 function getCapacity($id) {
   $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);

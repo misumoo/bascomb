@@ -71,6 +71,15 @@ if (isset($_POST['name'])) {
   $requestedtablebuddies = convertForInsert($mysqli->real_escape_string($_SESSION['requestedtablebuddies']));
   $notetohostess = convertForInsert($mysqli->real_escape_string($_SESSION['notetohostess']));
   //$typeOfFood = convertForInsert($mysqli->real_escape_string($_SESSION['typeOfFood']));
+
+  //let's check if this user exists in the database already
+  $customercheck = getCustomerCount($eventid, $userid, $name, $emailaddress);
+
+  if($customercheck > 0) {
+    //we have a match already..
+    $cancelProcess = true;
+    echo "You are trying to enter a duplicate record. ".$name." with ".$emailaddress." has already been registered to this event. Please change the name if you would like to register someone else.";
+  }
   
   //build e-mail string
   //send email and sql statement
@@ -84,6 +93,8 @@ if (isset($_POST['name'])) {
       echo mysqli_error($mysqli); //TODO: This needs to be a better error layout for users
       $cancelProcess = true;
     }
+
+    createLog('inserts', $sql, mysqli_error($mysqli));
 
     // multiple recipients
     $to  = $_SESSION['emailaddress'];
