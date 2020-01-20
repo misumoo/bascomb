@@ -65,9 +65,8 @@ session_start();
   <tr>
     <td colspan='2' class='center'>
       <p class='title'>BUMC Scrapbook Crop Registration</p>
-      <p class='p3'>Susan Austin</p>
-      <p class='p3'><a href='https://sites.google.com/site/bascombcrop/'>BUMC Scrapbook Crop</a></p>
-      <p class='p3'>6021 Hollow Dr, Woodstock Ga 30189</p>
+      <p class='p3'>BUMC Scrapbook Crop</p>
+      <p class='p3'>2295 Bascomb Carmel Rd, Woodstock, GA 30189</p>
       <p class='p3'><label class='required'>*</label> <label class='l2'>= Required.</p>
     </td>
   </tr>

@@ -114,8 +114,8 @@ if (isset($_POST['name'])) {
           <td colspan='2' class='width: 450px;text-align: center;'>
             <p style='text-align: center;font: 25px sans-serif;font-weight: bold;color: #37347A;'>BUMC Scrapbook Crop Registration</p>
             <p style='text-align: center;font: 13px sans-serif;font-weight: bold;color: #37347A;'>Susan Austin</p>
-            <p style='text-align: center;font: 13px sans-serif;font-weight: bold;color: #37347A;'><a href='https://sites.google.com/site/bascombcrop/'>BUMC Scrapbook Crop</a></p>
-            <p style='text-align: center;font: 13px sans-serif;font-weight: bold;color: #37347A;'>6021 Hollow Dr, Woodstock Ga 30189</p>
+            <p style='text-align: center;font: 13px sans-serif;font-weight: bold;color: #37347A;'>BUMC Scrapbook Crop</p>
+            <p style='text-align: center;font: 13px sans-serif;font-weight: bold;color: #37347A;'>2295 Bascomb Carmel Rd, Woodstock, GA 30189</p>
           </td>
         </tr>
         <tr>
@@ -144,21 +144,19 @@ if (isset($_POST['name'])) {
           if ($_SESSION['payby'] == "paypal") {
             $message .= "PayPal<br />
             <p style='font: 12px sans-serif;color: red;font-weight: bold;text-align: left;'>
-            If you have not completed<br />
-             your paypal transaction, <br />
-             please do so.<br />";
-            $message .= getPaypalForm($eventid);
-            $message .= "<br />
+            Send to TheBascombCrop@gmail.com<br />
             </p>";
           }
           if ($_SESSION['payby'] == "check") {
             $message .= "Check/Cash<br />
-            <br /><label style='font: 13px sans-serif;font-weight: bold;color: black;'>Make Check Payable to Bascomb <br /> UMC (subject:scrapbook crop)</label>
-            <p style='font: 12px sans-serif;color: red;font-weight: bold;text-align: left;'>Please send payment to:<br />
-            Susan Austin<br />
-            BUMC Crop<br />
-            6021 Hollow Dr<br />
-            Woodstock, Ga 30189<br /></p>";
+            <br /><label style='font: 13px sans-serif;font-weight: bold;color: black;'>Send all payments to:</label>
+            <p style='font: 12px sans-serif;color: red;font-weight: bold;text-align: left;'><br />
+            Bascomb UMC<br />
+            2295 Bascomb Carmel Rd<br />
+            Woodstock, Ga 30189<br /><br />
+            <label style='font: 13px sans-serif;font-weight: bold;color: black;'>Make checks payable to Bascomb UMC.<br><br /></label>
+            <label style='font: 13px sans-serif;font-weight: bold;color: black;'>Note \"scrapbooking\" for use of money, including cash.</label>
+            </p>";
           }
           $message .= "</td>
         </tr>
@@ -183,12 +181,12 @@ if (isset($_POST['name'])) {
           <td style='width: 265px;text-align: left;'>".stripslashes(nl2br($_SESSION['notetohostess']))."</td>
         </tr>
         ";
-        
+
 //        <tr>
 //          <td style='width: 165px;text-align: right;vertical-align: top;'><label style='font: 13px sans-serif;font-weight: bold;color: #37347A;'>Food:</label><br /> <label style='font: 12px sans-serif;color: red;'>Earn $5 off your registration fee by bringing food item(s) for your fellow scrappers.</label></td>
 //          <td style='width: 265px;text-align: left;vertical-align: top;'>".nl2br($_SESSION['food'])."</td>
 //        </tr>
-              
+
 //        <tr>
 //          <td style='width: 165px;text-align: right;vertical-align: top;'><label style='font: 13px sans-serif;font-weight: bold;color: #37347A;'>Food Category:</label><br /><label style='font: 12px sans-serif;color: red;'>If you are bringing something.</label></td>
 //          <td style='width: 265px;text-align: left;vertical-align: top;'>".$_SESSION['typeOfFood']."</td>
@@ -218,7 +216,7 @@ if (isset($_POST['name'])) {
     // To send HTML mail, the Content-type header must be set
     $headers  = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-    
+
     // Additional headers
     $headers .= 'To: ' . $to . "\r\n";
     $headers .= 'From: ' . $useremail . "\r\n";
@@ -251,8 +249,8 @@ if (isset($_POST['name'])) {
 
     echo "
             <p class='p3'>Susan Austin</p>
-            <p class='p3'><a href='https://sites.google.com/site/bascombcrop/'>BUMC Scrapbook Crop</a></p>
-            <p class='p3'>6021 Hollow Dr, Woodstock Ga 30189</p>
+            <p class='p3'>BUMC Scrapbook Crop</p>
+            <p class='p3'>6021 Hollow Dr., Woodstock, GA 30189</p>
           </td>
         </tr>
         <tr>
@@ -299,9 +297,9 @@ if (isset($_POST['name'])) {
             <br /><label class='l3'>Make Check Payable to Bascomb <br /> UMC (subject:scrapbook crop)</label>
             <p class='important'>Please send payment to:<br />
             Susan Austin<br />
-            BUMC Crop<br />
-            6021 Hollow Dr<br />
-            Woodstock, Ga 30189<br /></p>";
+            Bascomb UMC<br />
+            6021 Hollow Dr.<br />
+            Woodstock, GA 30189<br /></p>";
     }
     echo "</td>
         </tr>

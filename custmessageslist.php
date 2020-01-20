@@ -21,13 +21,13 @@ require_once('lib/db.php');
 if(isset($_POST['dropDownList']))
 {
   //generate their list
-	$result = mysql_query("SELECT EventID,EventName FROM tblEvents WHERE UserID='".$_SESSION['UserID']."'");
+	$result = db::get_connection("SELECT EventID,EventName FROM tblEvents WHERE UserID='".$_SESSION['UserID']."'");
 	if ($result)
 	{
     echo "<div style='padding-top: 5px; padding-bottom: 5px;'><select id='ddList' onchange='ddListChange();' style='width: 250px;'>
             <option value=''>Select From Mailing List...</option>
             <option value='all'>All</option>";
-  	while ($row = mysql_fetch_array($result))
+  	while ($row = mysqli_fetch_array($result))
   	{
       echo "<option value='".$row['EventID']."'>".$row['EventName']."</option>";
   	}
@@ -35,20 +35,20 @@ if(isset($_POST['dropDownList']))
 	} else {
 		echo "<p>Couldn't connect to the database. </p>";
 		echo "<br />";
-	  mysql_close($db_con);
-		echo mysql_error($db_con);
+//	  mysqli_close($db_con);
+		echo mysqli_error($result);
 	}
 }
 
 if(isset($_POST['generateTemplates']))
 {
   //generate their list
-	$result = mysql_query("SELECT EmailID,TemplateName,Header,Body,Footer FROM email WHERE UserID='".$_SESSION['UserID']."'");
+	$result = db::get_connection("SELECT EmailID,TemplateName,Header,Body,Footer FROM email WHERE UserID='".$_SESSION['UserID']."'");
 	if ($result)
 	{
     echo "<div style='padding-top: 5px; padding-bottom: 5px;'><select id='templateList' onchange='selectNewTemplate();' style='width: 250px;'>
             <option value=''>Select a different template</option>";
-  	while ($row = mysql_fetch_array($result))
+  	while ($row = mysqli_fetch_array($result))
   	{
       echo "<option value='".$row['EmailID']."'>".$row['TemplateName']."</option>";
   	}
@@ -56,8 +56,8 @@ if(isset($_POST['generateTemplates']))
 	} else {
 		echo "<p>Couldn't connect to the database. </p>";
 		echo "<br />";
-	  mysql_close($db_con);
-		echo mysql_error($db_con);
+//	  mysqli_close($db_con);
+		echo mysqli_error($result);
 	}
   //TODO: have DB Driven and make the one they were last using pop up in drop down
   
@@ -69,7 +69,7 @@ if(isset($_POST['generateTemplates']))
 
 if(isset($_POST['generateMailListAll']))
 {
-  $result = mysql_query("SELECT DISTINCT(EmailAddress) FROM registration WHERE UserID='".$_SESSION['UserID']."' AND EmailAddress != '' AND EmailAddress != 'none' ORDER BY EmailAddress");
+  $result = db::get_connection("SELECT DISTINCT(EmailAddress) FROM registration WHERE UserID='".$_SESSION['UserID']."' AND EmailAddress != '' AND EmailAddress != 'none' ORDER BY EmailAddress");
   if ($result)
 	{
     echo "<div style='width:100%; text-align: center;'><button onclick='massEmailAll()'>Mail List</button></div>";
@@ -82,7 +82,7 @@ if(isset($_POST['generateMailListAll']))
   					<th style='width: 297px;'><label>Email Address</label></th>
   					<th style='width: 560px;'><label>Custom Message Body</label></th>
   				</tr>";
-  	while ($row = mysql_fetch_array($result))
+  	while ($row = mysqli_fetch_array($result))
   	{
   		echo "<tr>";
   		echo "<td id=\"btn".$row['EmailAddress']."\">";
@@ -102,8 +102,8 @@ if(isset($_POST['generateMailListAll']))
 	} else {
 		echo "<p>Couldn't connect to the database. </p>";
 		echo "<br />";
-	  mysql_close($db_con);
-		echo mysql_error($db_con);
+//	  mysqli_close($db_con);
+		echo mysqli_error($result);
 	}
 }
 
@@ -112,7 +112,7 @@ if(isset($_POST['generateMailList']) && isset($_POST['EventID']))
   $table = "registration";
   $EventID = $_POST['EventID'];
   //find email
-  $result = mysql_query("SELECT regid,Name,EmailAddress,CustomMessageBody FROM ".$table." WHERE CustomMessageBdySent='0' AND EmailAddress!='none' AND EventID='".$EventID."' AND UserID='".$_SESSION['UserID']."'");
+  $result = db::get_connection("SELECT regid,Name,EmailAddress,CustomMessageBody FROM ".$table." WHERE CustomMessageBdySent='0' AND EmailAddress!='none' AND EventID='".$EventID."' AND UserID='".$_SESSION['UserID']."'");
 	if ($result)
 	{
   echo "<div style='width:100%; text-align: center;'><button onclick='massEmail(".$_POST['EventID'].")'>Mail List</button></div>";
@@ -128,7 +128,7 @@ if(isset($_POST['generateMailList']) && isset($_POST['EventID']))
 					<th style='width: 200px;'><label>Email Address</label></th>
 					<th style='width: 560px;'><label>Custom Message Body</label></th>
 				</tr>";
-	while ($row = mysql_fetch_array($result))
+	while ($row = mysqli_fetch_array($result))
 	{
 		echo "<tr>";
 		echo "<td id=\"btn".$row['regid']."\">";
@@ -154,11 +154,11 @@ if(isset($_POST['generateMailList']) && isset($_POST['EventID']))
 	} else {
 		echo "<p>Couldn't connect to the database. </p>";
 		echo "<br />";
-	  mysql_close($db_con);
-		echo mysql_error($db_con);
+//	  mysqli_close($db_con);
+		echo mysqli_error($result);
 	}
   
-	$result = mysql_query("SELECT regid,Name,EmailAddress,CustomMessageBody FROM ".$table." WHERE CustomMessageBdySent='1' AND EmailAddress!='none' AND EventID='".$EventID."' AND UserID='".$_SESSION['UserID']."'");
+	$result = db::get_connection("SELECT regid,Name,EmailAddress,CustomMessageBody FROM ".$table." WHERE CustomMessageBdySent='1' AND EmailAddress!='none' AND EventID='".$EventID."' AND UserID='".$_SESSION['UserID']."'");
 	if ($result)
 	{
 	  echo "<div class='email'>";
@@ -173,7 +173,7 @@ if(isset($_POST['generateMailList']) && isset($_POST['EventID']))
   					<th style='width: 200px;'><label>Email Address</label></th>
   					<th style='width: 560px;'><label>Custom Message Body</label></th>
   				</tr>";
-		while ($row = mysql_fetch_array($result))
+		while ($row = mysqli_fetch_array($result))
 		{
   		echo "<tr>";
 			echo "<td id=\"btn".$row['regid']."\">";
@@ -199,11 +199,11 @@ if(isset($_POST['generateMailList']) && isset($_POST['EventID']))
   	} else {
   		echo "<p>Couldn't connect to the database. </p>";
   		echo "<br />";
-  	  mysql_close($db_con);
-  		echo mysql_error($db_con);
+//  	  mysqli_close($db_con);
+  		echo mysqli_error($result);
   	}
     
-	$result = mysql_query("SELECT regid,Name,EmailAddress,CustomMessageBody FROM ".$table." WHERE EmailAddress='none' AND EventID='".$EventID."' AND UserID='".$_SESSION['UserID']."'");
+	$result = db::get_connection("SELECT regid,Name,EmailAddress,CustomMessageBody FROM ".$table." WHERE EmailAddress='none' AND EventID='".$EventID."' AND UserID='".$_SESSION['UserID']."'");
 	if ($result)
 	{
   echo "<div class='email'>";
@@ -217,7 +217,7 @@ if(isset($_POST['generateMailList']) && isset($_POST['EventID']))
 					<th style='width: 200px;'><label>Email Address</label></th>
 					<th style='width: 608px;'><label>Custom Message Body</label></th>
 				</tr>";
-	while ($row = mysql_fetch_array($result))
+	while ($row = mysqli_fetch_array($result))
 	{
 		echo "<tr>";
 		echo "<td>";
@@ -240,14 +240,14 @@ if(isset($_POST['generateMailList']) && isset($_POST['EventID']))
 	} else {
 		echo "<p>Couldn't connect to the database. </p>";
 		echo "<br />";
-	  mysql_close($db_con);
-		echo mysql_error($db_con);
+//	  mysqli_close($db_con);
+		echo mysqli_error($result);
 	}
   
   
 }
 
-mysql_close($db_con);
+//mysqli_close($db_con);
 }
 
 ?>

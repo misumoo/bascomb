@@ -77,12 +77,12 @@ if($_SESSION['EventSet'] == 0) {
 
 <div id="popup_SelectNewEvent" title="Select New Event">
     <?php
-    $result = mysql_query("SELECT EventID,EventName FROM tblEvents WHERE UserID='".$_SESSION['UserID']."'");
+    $result = db::get_connection("SELECT EventID,EventName FROM tblEvents WHERE UserID='".$_SESSION['UserID']."'");
     if ($result) {
       echo "<select title='Click to change' style='width: 100%;' id='eventWorkingWith' onchange='setNewEvent();'>
                 <option value=''>".$_SESSION['EventName']."</option>
               ";
-        while ($row = mysql_fetch_array($result))
+        while ($row = mysqli_fetch_array($result))
         {
           echo "<option value='".$row['EventID']."'>".$row['EventName']."</option>";
         }
@@ -90,7 +90,7 @@ if($_SESSION['EventSet'] == 0) {
 
 
     } else {
-      mysql_close($db_con);
+//      mysqli_close($db_con);
     }
     ?>
 </div>

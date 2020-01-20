@@ -32,11 +32,11 @@ $eventID = $_GET["e"];
     echo "<p class='title' style='text-align: left;'>";
     echo $foodList[$i];
     echo "</p>";
-    $result = mysql_query("SELECT Food FROM registration WHERE FoodCategory='".$foodList[$i]."' AND EventID='".$eventID."'");
+    $result = db::get_connection("SELECT Food FROM registration WHERE FoodCategory='".$foodList[$i]."' AND EventID='".$eventID."'");
     if ($result)
     {
       echo "<ul>";
-      while($row = mysql_fetch_array($result))
+      while($row = mysqli_fetch_array($result))
       {
         if ($row['Food'] != "")
         {
@@ -49,11 +49,11 @@ $eventID = $_GET["e"];
       echo "</ul>";
     } else {
     	echo "<p>Couldn't connect to the database. </p>";
-    	echo mysql_error($db_con);
-      mysql_close($db_con);
+    	echo mysqli_error($result);
+//      mysqli_close($db_con);
     }
   }
-  mysql_close($db_con);
+//  mysqli_close($db_con);
   ?>
 </div>
 </body>

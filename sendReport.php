@@ -36,19 +36,18 @@ require('lib/db.php');
 if (!$cancelProcess)
 {
   $sql = "INSERT INTO reports (EmailAddress, TypeOfReport, Description) VALUES ('".$_SESSION['emailaddress']."','".$_SESSION['errorType']."','".$_SESSION['errorTypeDesc']."')";
-  $result = mysql_query($sql);
+  $result = db::get_connection($sql);
 	If (!$result) {
 	 $cancelProcess = true;
-	 echo mysql_error($db_con);
+	 echo mysqli_error($result);
   }
 }  
 echo "<table class='form'>
   <tr>
     <td colspan='2' class='center'>
       <p class='title'>BUMC Scrapbook Crop Registration</p>
-      <p class='p3'>Susan Austin</p>
-      <p class='p3'><a href='https://sites.google.com/site/bascombcrop/'>BUMC Scrapbook Crop</a></p>
-      <p class='p3'>6021 Hollow Dr, Woodstock Ga 30189</p>
+      <p class='p3'>BUMC Scrapbook Crop</p>
+      <p class='p3'>2295 Bascomb Carmel Rd, Woodstock Ga 30189</p>
     </td>
   </tr>
   <tr>

@@ -2,7 +2,7 @@ function paymentHandle() {
   var payment = document.getElementById("paymentCheck").value;
   var method = document.getElementById("method");
           
-  var check = "<br /><label class='l3'>Make Check Payable to Bascomb <br /> UMC (subject:scrapbook crop)</label><p class='important'>Please send payment to:<br />Susan Austin<br />BUMC Crop<br />6021 Hollow Dr<br />Woodstock, Ga 30189</p>";
+  var check = "<br /><label class='l3'>Make Check Payable to Bascomb <br /> UMC (subject:scrapbook crop)</label><p class='important'>Please send payment to:<br />Susan Austin<br />Bascomb UMC<br />6021 Hollow Dr.<br />Woodstock, Ga 30189</p>";
   var paypal = "<p class='important' style='text'>You will be able to pay once you complete<br /> registration.</p>";
   if (payment != "")
   {

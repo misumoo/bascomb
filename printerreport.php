@@ -18,17 +18,17 @@ $_SESSION['UserID'];
 
 function check($id)
 {
-	$result = mysql_query("SELECT UserID FROM tblEvents WHERE EventID='".$id."'");
+	$result = db::get_connection("SELECT UserID FROM tblEvents WHERE EventID='".$id."'");
   if ($result)
   {
-    if(mysql_num_rows($result) == 0)
+    if(mysqli_num_rows($result) == 0)
     {
       $cancelProcess = true;
       return false;
     }
     if(!$cancelProcess)
     {			
-      while($row = mysql_fetch_array($result))
+      while($row = mysqli_fetch_array($result))
 			{
 	      //check to make sure it's theirs
         if($row['UserID'] != $_SESSION['UserID'])
@@ -42,8 +42,8 @@ function check($id)
     }
   } else {
 		echo "<p>Couldn't connect to the database. <br />
-    Server said: "; echo mysql_error($db_con);
-		mysql_close($db_con);
+    Server said: "; echo mysqli_error($result);
+//		mysqli_close($db_con);
     echo "</p>";
 	}
 }
@@ -125,7 +125,7 @@ function check($id)
   
   if(!$cancelProcess)
   {
-    $result = mysql_query("SELECT Name,Paid,Food,Submitted,Refferals,SeatNumber FROM registration".$id."".$sortOrder."");
+    $result = db::get_connection("SELECT Name,Paid,Food,Submitted,Refferals,SeatNumber FROM registration".$id."".$sortOrder."");
     if ($result)
     {
       $rowNumber = $rowNumber + "1";
@@ -139,7 +139,7 @@ function check($id)
           <th style='width:75px;'>On-time</th>
           <th style='width:75px;'>Tickets Totals</th>
         </tr>";
-        while($row = mysql_fetch_array($result))
+        while($row = mysqli_fetch_array($result))
         {
           //reset all variables used to calculate
           $seatNumber = "";
@@ -235,8 +235,8 @@ function check($id)
       $cancelProcess = true;
     	echo "<p>Couldn't connect to the database. </p>";
     	echo "<br />";
-    	echo mysql_error($db_con);
-      mysql_close($db_con);
+    	echo mysqli_error($result);
+//      mysqli_close($db_con);
     }
   }
   

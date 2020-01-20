@@ -139,11 +139,11 @@ if(isset($_POST['saveConvert']) && $cancelProcess == false) {
   $eventID = $_POST['eventID'];
   $rowMod = $_POST['row'];
 
-  $result = mysql_query("UPDATE tblEvents SET `".$rowMod."` = '".$info."' WHERE UserID='".$_SESSION['UserID']."' AND EventID='".$eventID."'");
+  $result = db::get_connection("UPDATE tblEvents SET `".$rowMod."` = '".$info."' WHERE UserID='".$_SESSION['UserID']."' AND EventID='".$eventID."'");
   if ($result) {
-    $result2 = mysql_query("SELECT UserID,ExpirationDate,EventName,BeginDate FROM tblEvents WHERE UserID='".$_SESSION['UserID']."' AND EventID='".$eventID."'");
+    $result2 = db::get_connection("SELECT UserID,ExpirationDate,EventName,BeginDate FROM tblEvents WHERE UserID='".$_SESSION['UserID']."' AND EventID='".$eventID."'");
     if ($result2) {
-      while($row = mysql_fetch_array($result2)) {
+      while($row = mysqli_fetch_array($result2)) {
         $eventName = $row['EventName'];
         $expirationDate = $row['ExpirationDate'];
         $beginDate = $row['BeginDate'];
@@ -165,8 +165,8 @@ if(isset($_POST['saveConvert']) && $cancelProcess == false) {
   } else {
     return false;
     echo "<p>Couldn't connect to the database. <br />
-    Server said: "; echo mysql_error($db_con);
-    mysql_close($db_con);
+    Server said: "; echo mysqli_error($result);
+//    mysqli_close($db_con);
   }
 } //saveConvert
 
@@ -246,4 +246,4 @@ if(isset($_POST['setup']) && !$cancelProcess)  {
   $mysqli->close();
 
 } //setup
-mysql_close($db_con);
+//mysqli_close($db_con);

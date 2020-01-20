@@ -20,10 +20,10 @@ if (!isset($_SESSION['authUser'])) {
   
   $_SESSION['UserID'];
   
-$result = mysql_query("SELECT DISTINCT(EmailAddress) FROM registration WHERE UserID='".$_SESSION['UserID']."' AND EmailAddress != '' AND EmailAddress != 'none' ORDER BY EmailAddress");
+$result = db::get_connection("SELECT DISTINCT(EmailAddress) FROM registration WHERE UserID='".$_SESSION['UserID']."' AND EmailAddress != '' AND EmailAddress != 'none' ORDER BY EmailAddress");
 if ($result)
 {
-	while ($row = mysql_fetch_array($result))
+	while ($row = mysqli_fetch_array($result))
 	{
 	  echo $row['EmailAddress'];
 	  echo "<br />";
@@ -31,13 +31,13 @@ if ($result)
 } else {
 	echo "<p>Couldn't connect to the database. </p>";
 	echo "<br />";
-  mysql_close($db_con);
-	echo mysql_error($db_con);
+//  mysqli_close($db_con);
+	echo mysqli_error($result);
 }
   
 
 
-mysql_close($db_con);
+//mysqli_close($db_con);
 
 
 

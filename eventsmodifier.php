@@ -61,7 +61,7 @@ require "header.php";
     echo "<br />!!!Panels!!!<br /><br />";
     echo "&nbsp;&nbsp;&nbsp;&nbsp;Create New<br /><br />";
     
-		$result = mysql_query("SELECT IsRequired,Left,Right FROM tblPanels WHERE UserID='".$UserID."'");
+		$result = db::get_connection("SELECT IsRequired,Left,Right FROM tblPanels WHERE UserID='".$UserID."'");
     if($result)
     {
       //do something with them
@@ -75,6 +75,6 @@ require "header.php";
 </body>
 </html>
 <?php
-mysql_close($db_con);
+//mysqli_close($db_con);
 }
 ?>

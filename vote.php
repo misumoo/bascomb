@@ -18,19 +18,20 @@ function convertForInsert($str)
 
 $ip = convertForInsert($_SERVER["REMOTE_ADDR"]);
 $vote = convertForInsert($_GET["vote"]);
+$category = convertForInsert($_GET["category"]);
 
 
 $sql = "
   INSERT INTO tbl_Votes
-    (VoteID, IP_Address, Vote)
+    (VoteID, IP_Address, Vote, Category)
   VALUES
-    (NULL, $ip, $vote);
+    (NULL, $ip, $vote, $category);
 ";
 
-$result = mysql_query($sql);
+$result = db::get_connection($sql);
 if(!$result)
 {
-  echo mysql_error($result);
+  echo mysqli_error($result);
 }
 
 ?>

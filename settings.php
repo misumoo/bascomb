@@ -87,6 +87,6 @@ require "header.php";
 </body>
 </html>
 <?php
-  mysql_close($db_con);
+//  mysqli_close($db_con);
 }
 ?>

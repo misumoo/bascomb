@@ -74,4 +74,4 @@ if(isset($_POST['save']) && !$cancelProcess)  {
   $mysqli->close();
 } //getSettings
 
-mysql_close($db_con);
+//mysqli_close($db_con);

@@ -61,10 +61,10 @@ $_SESSION['EventName'];
   		
   		<div class="panelWrapper">
   			<?php
-  			$result = mysql_query("SELECT UserID,ExpirationDate,EventName FROM tblEvents WHERE UserID='".$UserID."'");
+  			$result = db::get_connection("SELECT UserID,ExpirationDate,EventName FROM tblEvents WHERE UserID='".$UserID."'");
         if ($result)
         {
-    			while($row = mysql_fetch_array($result))
+    			while($row = mysqli_fetch_array($result))
     			{
     				echo $row['EventName'];
             if($row['ExpirationDate'] <= date("Y-m-d",time()))
@@ -76,8 +76,8 @@ $_SESSION['EventName'];
     			}
         } else {
   				echo "<p>Couldn't connect to the database. <br />
-          Server said: "; echo mysql_error($db_con);
-  				mysql_close($db_con);
+          Server said: "; echo mysqli_error($result);
+//  				mysqli_close($db_con);
           echo "</p>";
   			}
     			?>
@@ -89,10 +89,10 @@ $_SESSION['EventName'];
       ?>
   		<div class="panelWrapper">
   			<?php
-  			$result = mysql_query("SELECT Count(regid),Paid FROM registration WHERE UserID='".$UserID."' AND EventID='".$_SESSION['EventSet']."' AND EmailAddress != 'TheAustins4@gmail.com' AND EmailAddress != 'ScrappingatBascomb@gmail.com'");
+  			$result = db::get_connection("SELECT Count(regid),Paid FROM registration WHERE UserID='".$UserID."' AND EventID='".$_SESSION['EventSet']."' AND EmailAddress != 'TheAustins4@gmail.com' AND EmailAddress != 'ScrappingatBascomb@gmail.com'");
         if ($result)
         {
-    			while($row = mysql_fetch_array($result))
+    			while($row = mysqli_fetch_array($result))
     			{
     				echo $row['Count(regid)'];
             if($row['Count(regid)'] == 1)
@@ -105,8 +105,8 @@ $_SESSION['EventName'];
     			}
         } else {
   				echo "<p>Couldn't connect to the database. <br />
-          Server said: "; echo mysql_error($db_con);
-  				mysql_close($db_con);
+          Server said: "; echo mysqli_error($result);
+//  				mysqli_close($db_con);
           echo "</p>";
   			}
   			?>
@@ -118,7 +118,7 @@ $_SESSION['EventName'];
         
 //        echo 'enter';
         
-				$result = mysql_query("SELECT Count(regid),PayBy,Paid,Sum(PaymentRecvdAmount) FROM registration WHERE UserID='".$UserID."' AND EventID='".$_SESSION['EventSet']."' GROUP BY PayBy, Paid");
+				$result = db::get_connection("SELECT Count(regid),PayBy,Paid,Sum(PaymentRecvdAmount) FROM registration WHERE UserID='".$UserID."' AND EventID='".$_SESSION['EventSet']."' GROUP BY PayBy, Paid");
 				if ($result)
 				{
             echo "<div class=\"panelWrapper\">
@@ -131,7 +131,7 @@ $_SESSION['EventName'];
                 					<th><label>Totals</label></th>
                 				</tr>
                       <label>";
-  					while($row = mysql_fetch_array($result))
+  					while($row = mysqli_fetch_array($result))
   					{
   						echo "<tr>";
   						echo "<td>";
@@ -156,25 +156,25 @@ $_SESSION['EventName'];
 //				} else {
 //					echo "<p>Couldn't connect to the database. </p>";
 //					echo "<br />";
-//				  mysql_close($db_con);
-//					echo mysql_error($db_con);
+//				  mysqli_close($db_con);
+//					echo mysqli_error($db_con);
 //				}
         
         
 				?>
         
           <?php
-  				$result = mysql_query("SELECT Count(regid),FoodCategory FROM registration WHERE UserID='".$UserID."' AND EventID='".$_SESSION['EventSet']."' GROUP BY FoodCategory");
+  				$result = db::get_connection("SELECT Count(regid),FoodCategory FROM registration WHERE UserID='".$UserID."' AND EventID='".$_SESSION['EventSet']."' GROUP BY FoodCategory");
           if ($result)
           {
-			      if(mysql_fetch_array($result) != 0 && mysql_fetch_array($result) != "" && mysql_fetch_array($result) != NULL)
+			      if(mysqli_fetch_array($result) != 0 && mysqli_fetch_array($result) != "" && mysqli_fetch_array($result) != NULL)
             {
               echo "<div class=\"panelWrapper\">
                       <div class=\"innerPanelLeft\">
                         <p>
                         <a href='foodlist.php?e=".$_SESSION['EventSet']."' target='_blank'>View Food List</a>
                         </p>";
-//    					while ($row = mysql_fetch_array($result))
+//    					while ($row = mysqli_fetch_array($result))
 //    					{
 //  					    echo "<p>";
 //                if ($row['Count(regid)'] == "1")
@@ -195,12 +195,12 @@ $_SESSION['EventName'];
 //    					}
     					echo "</div></div>";
    				  } 
-    				mysql_close($db_con);
+//    				mysqli_close($db_con);
           } else {
     					echo "<p>Couldn't connect to the database. </p>";
     					echo "<br />";
-    					echo mysql_error($db_con);
-    				  mysql_close($db_con);
+    					echo mysqli_error($result);
+//    				  mysqli_close($db_con);
     				}
           }
         ?>      

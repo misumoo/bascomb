@@ -140,7 +140,7 @@ require "header.php";
     //render mail list
     echo "<div id='emailList'></div>";
     
-    mysql_close($db_con);
+//    mysqli_close($db_con);
    
     ?>
     <br />

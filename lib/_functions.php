@@ -29,35 +29,35 @@ function createLog($filename, $task, $msg) {
 }
 
 function updateNewLastEvent($EventID) {
-  $result = mysql_query("UPDATE tblLastEvent SET `UserID` = '".$_SESSION['UserID']."', `EventID` = '".$EventID."' WHERE UserID='".$_SESSION['UserID']."'");
+  $result = db::get_connection("UPDATE tblLastEvent SET `UserID` = '".$_SESSION['UserID']."', `EventID` = '".$EventID."' WHERE UserID='".$_SESSION['UserID']."'");
   if ($result) {
     return true;
   } else {
     return false;
-    echo "<p>Couldn't connect to the database. <br /> Server said: "; echo mysql_error($db_con);
-    mysql_close($db_con);
+    echo "<p>Couldn't connect to the database. <br /> Server said: "; echo mysqli_error($result);
+//    mysqli_close($db_con);
   }
 }
 
 function insertNewLastEvent($EventID) {
   echo $EventID;
   echo $_SESSION['UserID'];
-  $result = mysql_query("INSERT INTO  `tblLastEvent` (`LastEventID`,`UserID`,`EventID`) VALUES (NULL,'".$_SESSION['UserID']."','".$EventID."')");
+  $result = db::get_connection("INSERT INTO  `tblLastEvent` (`LastEventID`,`UserID`,`EventID`) VALUES (NULL,'".$_SESSION['UserID']."','".$EventID."')");
   if ($result)
   {
     return true;
   } else {
     return false;
-    echo "<p>Couldn't connect to the database. <br />  Server said: "; echo mysql_error($db_con);
-    mysql_close($db_con);
+    echo "<p>Couldn't connect to the database. <br />  Server said: "; echo mysqli_error($result);
+//    mysqli_close($db_con);
   }
 }
 
 function checkUserLastEvent() {
-  $result = mysql_query("SELECT Count(UserID) FROM tblLastEvent WHERE UserID='".$_SESSION['UserID']."'");
+  $result = db::get_connection("SELECT Count(UserID) FROM tblLastEvent WHERE UserID='".$_SESSION['UserID']."'");
   if ($result)
   {
-    while($row = mysql_fetch_array($result))
+    while($row = mysqli_fetch_array($result))
     {
       if($row['Count(UserID)'] > 0)
       {
@@ -68,8 +68,8 @@ function checkUserLastEvent() {
     }
   } else {
     return false;
-    echo "<p>Couldn't connect to the database. <br />  Server said: "; echo mysql_error($db_con);
-    mysql_close($db_con);
+    echo "<p>Couldn't connect to the database. <br />  Server said: "; echo mysqli_error($result);
+//    mysqli_close($db_con);
   }
 }
 
@@ -457,10 +457,10 @@ function getCapacityDisplay($id, $capacity) {
 } //getCapacity
 
 function checkEvent($id) {
-  $result = mysql_query("SELECT EventID,ExpirationDate,BeginDate FROM tblEvents WHERE EventID='".$id."'");
+  $result = db::get_connection("SELECT EventID,ExpirationDate,BeginDate FROM tblEvents WHERE EventID='".$id."'");
   if($result) {
-    while($row = mysql_fetch_array($result))  {
-      if(mysql_num_rows($result) != 1)  {
+    while($row = mysqli_fetch_array($result))  {
+      if(mysqli_num_rows($result) != 1)  {
         echo "Could not find registration ID.";
         return false;
       }
@@ -477,14 +477,12 @@ function checkEvent($id) {
 } //checkEvent
 
 function totalRegistered($id) {
-  $sql = "SELECT Count(regid) AS MyCount FROM registration WHERE EventID='".$id."'";
+  $sql = "SELECT Count(regid) AS MyCount FROM registration WHERE EventID='".$id."' AND UserID != '99'";
 
-  $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
-
-  $result = mysql_query($sql);
+  $result = db::get_connection($sql);
   if($result) {
-    while($row = mysql_fetch_array($result)) {
-      if(mysql_num_rows($result) != 1) {
+    while($row = mysqli_fetch_array($result)) {
+      if(mysqli_num_rows($result) != 1) {
         echo "Could not find registration ID.";
         return false;
       }
@@ -497,15 +495,15 @@ function totalRegistered($id) {
 
 
 function getUserID($id) {
-  $result = mysql_query("SELECT UserID FROM tblEvents WHERE EventID='".$id."'");
+  $result = db::get_connection("SELECT UserID FROM tblEvents WHERE EventID='".$id."'");
   if ($result)
   {
-    if(mysql_num_rows($result) != 1)
+    if(mysqli_num_rows($result) != 1)
     {
       $cancelProcess = true;
       return false;
     } else {
-      while($row = mysql_fetch_array($result))
+      while($row = mysqli_fetch_array($result))
       {
         return $row['UserID'];
       }
@@ -572,8 +570,8 @@ function getPaypalForm($id) {
 //    </form>
 //  ';
 
-//  $result = mysql_query("SELECT ExpirationDate FROM tblEvents WHERE EventID='".$id."'");
-//  while($row = mysql_fetch_array($result)) {
+//  $result = db::get_connection("SELECT ExpirationDate FROM tblEvents WHERE EventID='".$id."'");
+//  while($row = mysqli_fetch_array($result)) {
 //    $expdate = $row['ExpirationDate'];
 //  }
 //
