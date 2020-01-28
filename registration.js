@@ -1,9 +1,9 @@
 function paymentHandle() {
   var payment = document.getElementById("paymentCheck").value;
   var method = document.getElementById("method");
-          
-  var check = "<br /><label class='l3'>Make Check Payable to Bascomb <br /> UMC (subject:scrapbook crop)</label><p class='important'>Please send payment to:<br />Susan Austin<br />Bascomb UMC<br />6021 Hollow Dr.<br />Woodstock, Ga 30189</p>";
-  var paypal = "<p class='important' style='text'>You will be able to pay once you complete<br /> registration.</p>";
+
+  var check = "<br /><label class='l3'>Send all payments to:<br /></label><p class='important'>Bascomb UMC<br>2295 Bascomb Carmel Rd<br>Woodstock, Ga 30189</p><label class='l3'>Make checks payable to Bascomb UMC.<br><br>Note \"scrapbooking\" for use of money, including cash.<br><br></label>";
+  var paypal = "<br /><label class='l3'>Send to:<br></label><p class='important' style='text'>TheBascombCrop@gmail.com</p>";
   if (payment != "")
   {
     if (payment == "paypal")

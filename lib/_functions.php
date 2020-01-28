@@ -145,7 +145,10 @@ function createPaymentPlan($eventid, $startdate, $enddate, $paymenttypeid, $note
     return false; //something went wrong
   }
 
-  return $insertid;
+  return array(
+  	'id' => $insertid,
+  	'sql' => $sql,
+  );
 } //createPaymentPlan
 
 
@@ -179,10 +182,15 @@ function updatePaymentPlan($eventid, $startdate, $enddate, $paymenttypeid, $note
 
   try {
     $mysqli->query($sql);
-    return true;
+	  $success = true;
   } catch (Exception $e) {
-    return false; //something went wrong
+	  $success = false;
   }
+	return array(
+		'success' => $success,
+		'id' => $timeframeid,
+		'sql' => $sql,
+	);
 } //updatePaymentPlan
 
 function deletePaymentPlan($userid, $timeframeid) {
@@ -352,7 +360,7 @@ function getEventInfo($eventid, $userid) {
 } //getEventInfo
 
 function getPaymentPlan($eventid, $userid) {
-  $data = "";
+  $data = array();
   $dataArray = array();
 
   $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
@@ -515,74 +523,30 @@ function getUserID($id) {
 
 
 function getPaypalForm($id) {
-  $today = date('Y-m-d');
-
-  $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
-  $sql = "
-    SELECT
-      tbl_payment_timeframes.*,
-      tbl_payment_type.*
-    FROM `tbl_payment_timeframes`
-    LEFT JOIN `tbl_payment_type` ON `tbl_payment_timeframes`.PaymentTypeID = `tbl_payment_type`.PaymentTypeID
-    WHERE
-    StartDate <= '".$today."'
-    AND EndDate >= '".$today."'
-    AND EventID = '".$id."'
-    OR StartDate IS NULL
-    AND EndDate IS NULL
-    ORDER BY StartDate DESC
-    LIMIT 1
-  ";
-  $rs = $mysqli->query($sql);
-
-  while($row = $rs->fetch_assoc()) {
-    $form = $row['Form'];
-  }
-
-  //for now, we want >= 20 days before event end date to be $40, else $35
-//  $fortyfive = '
-//    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-//    <input type="hidden" name="cmd" value="_s-xclick">
-//    <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
-//    ">
-//    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-//    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-//    </form>
-//  ';
-//
-//  $forty = '
-//    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-//    <input type="hidden" name="cmd" value="_s-xclick">
-//    <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
-//    ">
-//    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-//    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-//    </form>
-//  ';
-//
-//  $thirtyfive = '
-//    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-//    <input type="hidden" name="cmd" value="_s-xclick">
-//    <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
-//    ">
-//    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-//    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-//    </form>
-//  ';
-
-//  $result = db::get_connection("SELECT ExpirationDate FROM tblEvents WHERE EventID='".$id."'");
-//  while($row = mysqli_fetch_array($result)) {
-//    $expdate = $row['ExpirationDate'];
-//  }
-//
+	return "<label class='l3'>Send to:<br></label><p class='important' style='text'>TheBascombCrop@gmail.com</p>";
 //  $today = date('Y-m-d');
-//  $dateminus = date('Y-m-d', strtotime('-10 day', strtotime($expdate))); //-19 is -20 days, changed to -10 for one event
-
-//  if(strtotime($today) >= strtotime($dateminus)) {
-    //$form = $thirtyfive;
-//  } else {
-//    $form = $thirtyfive;
+//
+//  $mysqli = new mysqli(db::dbserver, db::dbuser, db::dbpass, db::dbname);
+//  $sql = "
+//    SELECT
+//      tbl_payment_timeframes.*,
+//      tbl_payment_type.*
+//    FROM `tbl_payment_timeframes`
+//    LEFT JOIN `tbl_payment_type` ON `tbl_payment_timeframes`.PaymentTypeID = `tbl_payment_type`.PaymentTypeID
+//    WHERE
+//    StartDate <= '".$today."'
+//    AND EndDate >= '".$today."'
+//    AND EventID = '".$id."'
+//    OR StartDate IS NULL
+//    AND EndDate IS NULL
+//    ORDER BY StartDate DESC
+//    LIMIT 1
+//  ";
+//  $rs = $mysqli->query($sql);
+//
+//  while($row = $rs->fetch_assoc()) {
+//    $form = $row['Form'];
 //  }
-
-  return $form;
+//
+//  return $form;
 }

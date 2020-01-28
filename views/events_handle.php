@@ -97,7 +97,7 @@ if(isset($_POST['addPaymentPlan']) && !$cancelProcess) {
   if(!$task) {
     $data = array("success" => false, "message" => "Error!");
   } else {
-    $data = array("success" => true, "message" => "Success!", "id" => $task);
+    $data = array("success" => true, "message" => "Success!", "id" => $task['id'], "sql" => $task['sql']);
   }
 
   echo json_encode($data);

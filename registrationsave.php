@@ -248,9 +248,7 @@ if (isset($_POST['name'])) {
     }
 
     echo "
-            <p class='p3'>Susan Austin</p>
             <p class='p3'>BUMC Scrapbook Crop</p>
-            <p class='p3'>6021 Hollow Dr., Woodstock, GA 30189</p>
           </td>
         </tr>
         <tr>
@@ -295,11 +293,7 @@ if (isset($_POST['name'])) {
     if ($_SESSION['payby'] == "check") {
       echo "Check/Cash<br />
             <br /><label class='l3'>Make Check Payable to Bascomb <br /> UMC (subject:scrapbook crop)</label>
-            <p class='important'>Please send payment to:<br />
-            Susan Austin<br />
-            Bascomb UMC<br />
-            6021 Hollow Dr.<br />
-            Woodstock, GA 30189<br /></p>";
+            <p class=\"important\">Bascomb UMC<br>2295 Bascomb Carmel Rd<br>Woodstock, Ga 30189</p>";
     }
     echo "</td>
         </tr>
